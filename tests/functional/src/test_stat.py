@@ -25,7 +25,7 @@ async def test_stat(
     body, headers, status = await make_request('get', service_url, query_data=params)
     assert status == HTTPStatus.OK
 
-    assert len(body['items']) == 3
+    assert len(body['items']) <= 3
 
     body, headers, status = await make_request('delete', service_url)
     assert status == HTTPStatus.OK
