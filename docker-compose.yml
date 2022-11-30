@@ -8,6 +8,7 @@ services:
   fastapi:
     build: ./
     image: fastapi-image
+    restart: on-failure
     env_file: .fastapi.env
     depends_on:
       - database

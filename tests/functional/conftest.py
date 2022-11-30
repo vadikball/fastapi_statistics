@@ -79,6 +79,17 @@ def get_data(load_test_data: list[dict]):
 
 
 @pytest.fixture
+def get_params():
+    def inner(data: list[dict]):
+        date = str(data[0]['date'])
+        params = {'start': date, 'end': date}
+
+        return params
+
+    return inner
+
+
+@pytest.fixture
 def make_request(aiohttp_session: aiohttp.ClientSession):
     async def inner(
             method: str,
