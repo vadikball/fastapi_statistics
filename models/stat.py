@@ -17,7 +17,7 @@ class StatModel(Base):
     clicks = Column(Integer, nullable=True)
     cost = Column(Numeric(5, 2), nullable=True)
 
-    def dict(self):
+    def dict(self) -> dict:
         d = {}
         for column in self.__table__.columns:
             d[column.name] = getattr(self, column.name)

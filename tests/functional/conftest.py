@@ -30,44 +30,37 @@ async def aiohttp_session():
     await session.close()
 
 
-@pytest_asyncio.fixture(scope='session')
-async def postgres_engine() -> AsyncEngine:
-    engine = create_async_engine(
-        test_settings.pg_settings,
-        future=True,
-        echo=True,
-    )
-    yield engine
-    await engine.dispose()
+# @pytest_asyncio.fixture(scope='session')
+# async def postgres_engine() -> AsyncEngine:
+#     engine = create_async_engine(
+#         test_settings.pg_settings,
+#         future=True,
+#         echo=True,
+#     )
+#     yield engine
+#     pass
+#
+#
+# @pytest_asyncio.fixture(scope='session')
+# async def postgres_session(postgres_engine: AsyncEngine) -> AsyncSession:
+#     session = sessionmaker(
+#         postgres_engine,
+#         expire_on_commit=False,
+#         autocommit=False,
+#         autoflush=False,
+#         class_=AsyncSession,
+#     )()
+#     yield session
+#     await session.close()
 
 
 @pytest_asyncio.fixture(scope='session')
-async def postgres_session(postgres_engine: AsyncEngine) -> AsyncSession:
-    session = sessionmaker(
-        postgres_engine, expire_on_commit=False, class_=AsyncSession
-    )()
-    yield session
-    await session.close()
-
-
-@pytest_asyncio.fixture(scope='session')
-async def load_test_data(postgres_engine: AsyncEngine,
-                         postgres_session: AsyncSession):
-    await pg_base.create_all(postgres_engine)
+async def load_test_data():
     data: list[dict] = easy_case()
-
-    try:
-        for stat in data:
-            await postgres_session.merge(StatModel(**stat))
-    except:
-        await postgres_session.rollback()
-    else:
-        await postgres_session.commit()
 
     yield data
 
-    await postgres_session.execute(sa_text('TRUNCATE TABLE stats CASCADE'))
-    await postgres_session.commit()
+    pass
 
 
 @pytest.fixture

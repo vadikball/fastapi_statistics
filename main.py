@@ -25,8 +25,12 @@ async def startup():
         future=True
     )
     postgres.session = sessionmaker(
-        postgres.engine, expire_on_commit=False, class_=AsyncSession
-    )()
+        postgres.engine,
+        expire_on_commit=False,
+        autocommit=False,
+        autoflush=False,
+        class_=AsyncSession,
+    )
     await postgres.create_all()
 
 

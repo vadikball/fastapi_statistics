@@ -13,28 +13,24 @@ from services.utils import SearchParams
 
 class StatService:
 
-    def __init__(self, session: AsyncSession):
+    def __init__(self, session):
         self.session = session
 
     async def delete_all_data(self):
-        try:
-            await self.session.execute(sa_text(""" TRUNCATE TABLE stats CASCADE """))
-        except:
-            await self.session.rollback()
-        else:
-            await self.session.commit()
+        async with self.session() as session:
+            async with session.begin():
+                await self.session.execute(sa_text(""" TRUNCATE TABLE stats CASCADE """))
+                await self.session.commit()
 
     async def add_stat(self, stat: StatModel):
-        try:
-            stat = await self.session.merge(stat)
-        except:
-            await self.session.rollback()
-        else:
-            await self.session.commit()
-
+        async with self.session() as session:
+            async with session.begin():
+                stat = await self.session.merge(stat)
+                await self.session.commit()
+                stat = stat.dict()
         return stat
 
-    async def get_search(self, params: SearchParams) -> tuple[StatModel]:
+    async def get_search(self, params: SearchParams) -> tuple[dict]:
         """
 
         """
@@ -46,7 +42,10 @@ class StatService:
             limit(raw_params.limit).\
             order_by(getattr(StatModel, params.sort.value))
 
-        stats: tuple[StatModel] = tuple((await self.session.scalars(query)).all())
+        async with self.session() as session:
+            async with session.begin():
+                stats: tuple[StatModel] = tuple((await self.session.scalars(query)).all())
+                stats: tuple[dict] = tuple(stat.dict() for stat in stats)
 
         return stats
 
