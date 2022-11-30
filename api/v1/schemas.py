@@ -13,7 +13,6 @@ class StatSchemaIn(BaseModel):
 
 
 class StatSchemaOut(BaseModel):
-    id: str
     date: date
     views: Optional[int] = None
     clicks: Optional[int] = None

@@ -26,8 +26,8 @@ class StatService:
         async with self.session() as session:
             async with session.begin():
                 stat = await session.merge(stat)
-                stat = stat.dict()
                 await session.commit()
+                stat = stat.dict()
         return stat
 
     async def get_search(self, params: SearchParams) -> tuple[dict]:
