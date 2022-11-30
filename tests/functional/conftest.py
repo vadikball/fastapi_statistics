@@ -66,8 +66,8 @@ async def load_test_data(postgres_engine: AsyncEngine,
 
     yield data
 
-    async with postgres_session.begin():
-        await postgres_session.execute(sa_text('TRUNCATE TABLE stats CASCADE'))
+    await postgres_session.execute(sa_text('TRUNCATE TABLE stats CASCADE'))
+    await postgres_session.commit()
 
 
 @pytest.fixture
