@@ -17,12 +17,20 @@ class StatService:
         self.session = session
 
     async def delete_all_data(self):
-        async with self.session.begin():
+        try:
             await self.session.execute(sa_text(""" TRUNCATE TABLE stats CASCADE """))
+        except:
+            await self.session.rollback()
+        else:
+            await self.session.commit()
 
     async def add_stat(self, stat: StatModel):
-        async with self.session.begin():
+        try:
             stat = await self.session.merge(stat)
+        except:
+            await self.session.rollback()
+        else:
+            await self.session.commit()
 
         return stat
 
