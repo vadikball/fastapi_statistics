@@ -1,4 +1,3 @@
-from decimal import Decimal
 from datetime import date
 from typing import Optional, Generator
 from uuid import uuid4

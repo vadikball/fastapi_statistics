@@ -27,7 +27,7 @@ async def stat_list(
 ) -> AbstractPage[StatSchemaOut]:
     """ Статистика списком """
 
-    stats = await stat_service.get_search(
+    stats = await stat_service.list_stat(
         params
     )
     if not stats:

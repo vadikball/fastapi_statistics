@@ -5,7 +5,6 @@ from typing import Optional
 from fastapi import Query
 from fastapi_pagination import Params
 import orjson
-from pydantic.typing import Literal
 
 
 def orjson_dumps(v, *, default):

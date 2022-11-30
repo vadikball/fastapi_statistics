@@ -19,6 +19,8 @@ app = FastAPI(
 
 @app.on_event('startup')
 async def startup():
+    """ Создаёт таблицу при старте """
+
     postgres.engine = create_async_engine(
         settings.DB_CONFIG,
         echo=True,
@@ -32,11 +34,6 @@ async def startup():
         class_=AsyncSession,
     )
     await postgres.create_all()
-
-
-@app.on_event('shutdown')
-async def shutdown():
-    await postgres.session.close()
 
 
 app.include_router(stats.router, prefix='/api/v1/stats')

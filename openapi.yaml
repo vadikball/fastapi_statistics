@@ -1,0 +1,219 @@
+openapi: 3.0.2
+info:
+  title: stats
+  version: 0.1.0
+paths:
+  /api/v1/stats/:
+    get:
+      tags:
+        - Статистика
+      summary: Просмотр статистики
+      description: Список записей статистики
+      operationId: stat_list_api_v1_stats__get
+      parameters:
+        - required: false
+          schema:
+            title: Page
+            minimum: 1
+            type: integer
+            default: 1
+          name: page
+          in: query
+        - required: false
+          schema:
+            title: Size
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 50
+          name: size
+          in: query
+        - required: false
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/SortChoice'
+            default: date
+          name: sort
+          in: query
+        - required: true
+          schema:
+            title: Start
+            type: string
+            format: date
+          name: start
+          in: query
+        - required: true
+          schema:
+            title: End
+            type: string
+            format: date
+          name: end
+          in: query
+      responses:
+        '200':
+          description: id, имя, описание
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page_StatSchemaOut_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+        - Статистика
+      summary: Добавление статистики
+      description: Добавление статистики
+      operationId: add_stat_api_v1_stats__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StatSchemaIn'
+        required: true
+      responses:
+        '200':
+          description: id, название, описание
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatSchemaOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+        - Статистика
+      summary: Удалить статистику
+      description: Удаление всех записей статистики
+      operationId: truncate_stat_api_v1_stats__delete
+      responses:
+        '200':
+          description: описание
+          content:
+            application/json:
+              schema:
+                title: Response Truncate Stat Api V1 Stats  Delete
+                type: object
+                additionalProperties:
+                  type: string
+components:
+  schemas:
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    Page_StatSchemaOut_:
+      title: Page[StatSchemaOut]
+      required:
+        - items
+        - total
+        - page
+        - size
+      type: object
+      properties:
+        items:
+          title: Items
+          type: array
+          items:
+            $ref: '#/components/schemas/StatSchemaOut'
+        total:
+          title: Total
+          minimum: 0
+          type: integer
+        page:
+          title: Page
+          minimum: 1
+          type: integer
+        size:
+          title: Size
+          minimum: 1
+          type: integer
+    SortChoice:
+      title: SortChoice
+      enum:
+        - date
+        - views
+        - clicks
+        - cost
+      description: An enumeration.
+    StatSchemaIn:
+      title: StatSchemaIn
+      required:
+        - date
+      type: object
+      properties:
+        date:
+          title: Date
+          type: string
+          format: date
+        views:
+          title: Views
+          type: integer
+        clicks:
+          title: Clicks
+          type: integer
+        cost:
+          title: Cost
+          minimum: 0
+          type: number
+    StatSchemaOut:
+      title: StatSchemaOut
+      required:
+        - date
+      type: object
+      properties:
+        date:
+          title: Date
+          type: string
+          format: date
+        views:
+          title: Views
+          type: integer
+        clicks:
+          title: Clicks
+          type: integer
+        cost:
+          title: Cost
+          exclusiveMinimum: 0
+          type: number
+        cpc:
+          title: Cpc
+          exclusiveMinimum: 0
+          type: number
+        cpm:
+          title: Cpm
+          exclusiveMinimum: 0
+          type: number
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string

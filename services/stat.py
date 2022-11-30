@@ -1,5 +1,4 @@
 from functools import lru_cache
-from typing import Optional
 
 from fastapi import Depends
 from sqlalchemy import select
@@ -17,12 +16,20 @@ class StatService:
         self.session = session
 
     async def delete_all_data(self):
+        """
+            Удаляет все записи в таблице
+        """
         async with self.session() as session:
             async with session.begin():
                 await session.execute(sa_text(""" TRUNCATE TABLE stats CASCADE """))
                 await session.commit()
 
     async def add_stat(self, stat: StatModel) -> dict:
+        """
+            Добавляет запись в таблицу
+        :param stat: Заполненная данными модель таблицы
+        :return: dict с информацией о добавленной модели
+        """
         async with self.session() as session:
             async with session.begin():
                 stat = await session.merge(stat)
@@ -30,9 +37,10 @@ class StatService:
                 stat = stat.dict()
         return stat
 
-    async def get_search(self, params: SearchParams) -> tuple[dict]:
+    async def list_stat(self, params: SearchParams) -> tuple[dict]:
         """
-
+            Возращает список словарей,
+            в которые сериализованы объекты StatModel
         """
 
         raw_params = params.to_raw_params()

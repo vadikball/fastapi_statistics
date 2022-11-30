@@ -1,4 +1,3 @@
-from abc import abstractmethod
 from decimal import Decimal, ROUND_UP
 from uuid import uuid4
 
@@ -18,14 +17,16 @@ class StatModel(Base):
     cost = Column(Numeric(5, 2), nullable=True)
 
     def dict(self) -> dict:
+        """ кастомный метод сериализации модели в dict """
+
         d = {}
         for column in self.__table__.columns:
             d[column.name] = getattr(self, column.name)
 
         if self.cost is not None:
-            if self.clicks is not None:
+            if self.clicks:
                 d['cpc'] = (self.cost / self.clicks).quantize(Decimal('.01'), rounding=ROUND_UP)
-            if self.views is not None:
+            if self.views:
                 d['cpm'] = ((self.cost / self.views) * 1000).quantize(Decimal('.01'), rounding=ROUND_UP)
 
         return d
