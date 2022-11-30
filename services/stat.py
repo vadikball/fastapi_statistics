@@ -33,7 +33,7 @@ class StatService:
 
         raw_params = params.to_raw_params()
         query = select(StatModel).\
-            filter(StatModel.date.between(params.from_, params.to_)).\
+            filter(StatModel.date.between(params.start, params.end)).\
             offset(raw_params.offset).\
             limit(raw_params.limit).\
             order_by(getattr(StatModel, params.sort))
