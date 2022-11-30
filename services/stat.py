@@ -44,7 +44,7 @@ class StatService:
 
         async with self.session() as session:
             async with session.begin():
-                stats: tuple[StatModel] = tuple((await self.session.scalars(query)).all())
+                stats: tuple[StatModel] = tuple((await session.scalars(query)).all())
                 stats: tuple[dict] = tuple(stat.dict() for stat in stats)
 
         return stats

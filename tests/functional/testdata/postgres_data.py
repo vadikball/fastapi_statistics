@@ -11,8 +11,8 @@ def generate_data(
 ) -> Generator:
 
     yield {
-        'id': uuid4(),
-        'date': date.today(),
+        'id': str(uuid4()),
+        'date': str(date.today()),
         'views': views,
         'clicks': clicks,
         'cost': cost

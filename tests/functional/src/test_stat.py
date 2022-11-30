@@ -20,7 +20,7 @@ service_url = '/stats'
     ]
 )
 @pytest.mark.asyncio
-async def test_stat_post(
+async def test_stat(
         get_data,
         make_request,
         get_params,
