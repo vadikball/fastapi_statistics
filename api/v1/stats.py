@@ -38,7 +38,7 @@ async def stat_list(
 
     total = len(stats)
 
-    stats = [StatSchemaOut(**stat.dict()) for stat in stats]
+    stats = [StatSchemaOut(**stat) for stat in stats]
     return create_page(stats, total, params)
 
 
