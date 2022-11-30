@@ -79,7 +79,7 @@ def get_data(load_test_data: list[dict]):
 
 
 @pytest.fixture
-async def make_request(aiohttp_session: aiohttp.ClientSession):
+def make_request(aiohttp_session: aiohttp.ClientSession):
     async def inner(
             method: str,
             endpoint: str,
