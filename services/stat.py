@@ -36,7 +36,7 @@ class StatService:
             filter(StatModel.date.between(params.start, params.end)).\
             offset(raw_params.offset).\
             limit(raw_params.limit).\
-            order_by(getattr(StatModel, params.sort))
+            order_by(getattr(StatModel, params.sort.value))
 
         stats: tuple[StatModel] = tuple(await self.session.execute(query))
 
