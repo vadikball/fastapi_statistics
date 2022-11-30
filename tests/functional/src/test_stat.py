@@ -36,7 +36,8 @@ async def test_stat_get(
         make_request):
     data: list[dict] = get_data()
 
-    body, headers, status = await make_request('get', service_url)
+    params = {'start': data[0]['date'], 'end': data[0]['date']}
+    body, headers, status = await make_request('get', service_url, query_data=params)
 
     assert status == HTTPStatus.OK
     body_values = tuple(value for item in body['items'] for value in tuple(item.values()))
@@ -45,12 +46,15 @@ async def test_stat_get(
 
 @pytest.mark.asyncio
 async def test_stat_delete(
+        get_data,
         make_request):
+    data: list[dict] = get_data()
 
     body, headers, status = await make_request('delete', service_url)
 
     assert status == HTTPStatus.OK
 
-    body, headers, status = await make_request('get', service_url)
+    params = {'start': data[0]['date'], 'end': data[0]['date']}
+    body, headers, status = await make_request('get', service_url, query_data=params)
 
     assert status == HTTPStatus.NOT_FOUND
