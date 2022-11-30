@@ -38,7 +38,7 @@ class StatService:
             limit(raw_params.limit).\
             order_by(getattr(StatModel, params.sort.value))
 
-        stats: tuple[StatModel] = tuple((await self.session.execute(query)).scalars.all())
+        stats: tuple[StatModel] = tuple((await self.session.scalars(query)).all())
 
         return stats
 
