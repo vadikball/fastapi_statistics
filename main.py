@@ -19,10 +19,10 @@ app = FastAPI(
 
 @app.on_event('startup')
 async def startup():
-    print(settings.DB_CONFIG)
     postgres.engine = create_async_engine(
         settings.DB_CONFIG,
         echo=True,
+        future=True
     )
     postgres.session = sessionmaker(
         postgres.engine, expire_on_commit=False, class_=AsyncSession
