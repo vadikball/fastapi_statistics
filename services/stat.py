@@ -25,9 +25,9 @@ class StatService:
     async def add_stat(self, stat: StatModel):
         async with self.session() as session:
             async with session.begin():
-                stat = await self.session.merge(stat)
-                await self.session.commit()
+                stat = await session.merge(stat)
                 stat = stat.dict()
+                await session.commit()
         return stat
 
     async def get_search(self, params: SearchParams) -> tuple[dict]:
