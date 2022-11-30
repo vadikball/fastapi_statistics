@@ -78,6 +78,7 @@ def get_data(load_test_data: list[dict]):
     return inner
 
 
+@pytest.fixture
 async def make_request(aiohttp_session: aiohttp.ClientSession):
     async def inner(
             method: str,
