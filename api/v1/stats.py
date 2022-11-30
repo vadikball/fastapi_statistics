@@ -55,9 +55,9 @@ async def add_stat(
 ) -> StatSchemaOut:
     """ Добавление статистики """
 
-    stat: StatModel = await stat_service.add_stat(StatModel(**stat.dict()))
+    stat: dict = await stat_service.add_stat(StatModel(**stat.dict()))
 
-    return StatSchemaOut(**stat.dict())
+    return StatSchemaOut(**stat)
 
 
 @router.delete(

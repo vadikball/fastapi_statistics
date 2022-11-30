@@ -22,7 +22,7 @@ class StatService:
                 await self.session.execute(sa_text(""" TRUNCATE TABLE stats CASCADE """))
                 await self.session.commit()
 
-    async def add_stat(self, stat: StatModel):
+    async def add_stat(self, stat: StatModel) -> dict:
         async with self.session() as session:
             async with session.begin():
                 stat = await session.merge(stat)
