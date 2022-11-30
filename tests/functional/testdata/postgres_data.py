@@ -1,4 +1,5 @@
 from decimal import Decimal
+from datetime import date
 from typing import Optional, Generator
 from uuid import uuid4
 
@@ -11,6 +12,7 @@ def generate_data(
 
     yield {
         'id': uuid4(),
+        'date': date.today(),
         'views': views,
         'clicks': clicks,
         'cost': cost

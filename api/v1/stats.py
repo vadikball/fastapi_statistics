@@ -50,7 +50,7 @@ async def stat_list(
     response_description="id, название, описание"
 )
 async def add_stat(
-        stat: StatSchemaIn = Depends(),
+        stat: StatSchemaIn,
         stat_service: StatService = Depends(get_stat_service)
 ) -> StatSchemaOut:
     """ Добавление статистики """
