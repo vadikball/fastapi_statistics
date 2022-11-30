@@ -66,8 +66,8 @@ async def add_stat(
 @router.delete(
     '/',
     response_model=dict[str, str],
-    summary="Удалить",
-    description="Удаление статистики",
+    summary="Удалить статистику",
+    description="Удаление всех записей статистики",
     response_description="описание"
 )
 async def truncate_stat(

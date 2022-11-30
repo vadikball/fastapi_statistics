@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from decimal import Decimal, ROUND_UP
 from uuid import uuid4
 
 from sqlalchemy import Column, Integer, Numeric, Date
@@ -23,9 +24,9 @@ class StatModel(Base):
 
         if self.cost is not None:
             if self.clicks is not None:
-                d['cpc'] = self.cost / self.clicks
+                d['cpc'] = (self.cost / self.clicks).quantize(Decimal('.01'), rounding=ROUND_UP)
             if self.views is not None:
-                d['cpm'] = (self.cost / self.views) * 1000
+                d['cpm'] = ((self.cost / self.views) * 1000).quantize(Decimal('.01'), rounding=ROUND_UP)
 
         return d
 

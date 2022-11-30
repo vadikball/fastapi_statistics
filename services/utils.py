@@ -18,5 +18,5 @@ class SortParams(Params):
 
 
 class SearchParams(SortParams):
-    from_: str = Query(default=..., alias='from')
-    to_: str = Query(default=..., alias='to')
+    start: str = Query(default=...)
+    end: str = Query(default=...)

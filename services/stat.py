@@ -18,7 +18,7 @@ class StatService:
 
     async def delete_all_data(self):
         async with self.session.begin():
-            await self.session.execute(sa_text('TRUNCATE TABLE :table'), table=StatModel.__tablename__)
+            await self.session.execute(sa_text(""" TRUNCATE TABLE stats CASCADE """))
 
     async def add_stat(self, stat: StatModel):
         async with self.session.begin():

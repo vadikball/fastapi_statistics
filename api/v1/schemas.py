@@ -9,7 +9,7 @@ class StatSchemaIn(BaseModel):
     date: date
     views: Optional[int]
     clicks: Optional[int]
-    cost: condecimal(gt=Decimal(0), max_digits=2, decimal_places=2)
+    cost: Optional[condecimal(gt=Decimal(0), max_digits=2, decimal_places=2)]
 
 
 class StatSchemaOut(BaseModel):

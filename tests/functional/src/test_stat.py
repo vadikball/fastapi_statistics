@@ -39,7 +39,7 @@ async def test_stat_get(
     body, headers, status = make_request('get', service_url)
 
     assert status == HTTPStatus.OK
-    body_values = tuple(*item.values() for item in body['items'])
+    body_values = tuple(*tuple(item.values()) for item in body['items'])
     assert data[0]['id'] in body_values
 
 
