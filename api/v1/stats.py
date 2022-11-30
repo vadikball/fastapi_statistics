@@ -56,9 +56,6 @@ async def add_stat(
     """ Добавление статистики """
 
     stat: StatModel = await stat_service.add_stat(StatModel(**stat.dict()))
-    if not stat.id:
-        raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY,
-                            detail='Unprocessable Entity')
 
     return StatSchemaOut(**stat.dict())
 
