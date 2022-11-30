@@ -20,7 +20,7 @@ class StatModel(Base):
     def dict(self):
         d = {}
         for column in self.__table__.columns:
-            d[column.name] = str(getattr(self, column.name))
+            d[column.name] = getattr(self, column.name)
 
         if self.cost is not None:
             if self.clicks is not None:
