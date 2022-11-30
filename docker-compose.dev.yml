@@ -1,0 +1,26 @@
+version: '3'
+services:
+  database:
+    image: postgres:14
+    env_file: postgres.sample.env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  fastapi:
+    build: ./
+    image: fastapi-image
+    env_file: fastapi.sample.env
+    depends_on:
+      - database
+    ports:
+      - '8010:8010'
+  tests:
+    image: fastapi-image
+    env_file: tests/functional/tests.sample.env
+    command: sh start_tests.sh
+    depends_on:
+      - database
+      - fastapi
+volumes:
+  pgdata:
