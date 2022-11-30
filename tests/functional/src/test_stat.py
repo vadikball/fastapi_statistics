@@ -15,10 +15,10 @@ async def test_stat(
     data: list[dict] = get_data()
 
     for stat in data:
-        body, headers, status = await make_request('get', service_url, body=stat)
+        body, headers, status = await make_request('post', service_url, body=stat)
         assert status == HTTPStatus.OK
 
-    body, headers, status = await make_request('get', service_url, body={'success': False})
+    body, headers, status = await make_request('post', service_url, body={'success': False})
     assert status == HTTPStatus.UNPROCESSABLE_ENTITY
 
     params = get_params(data)
