@@ -25,7 +25,7 @@ async def test_stat_post(
         body: dict,
         response: dict
 ):
-    body, headers, status = make_request('get', service_url, body=body)
+    body, headers, status = await make_request('get', service_url, body=body)
 
     assert status == response['status']
 
@@ -36,7 +36,7 @@ async def test_stat_get(
         make_request):
     data: list[dict] = get_data()
 
-    body, headers, status = make_request('get', service_url)
+    body, headers, status = await make_request('get', service_url)
 
     assert status == HTTPStatus.OK
     body_values = tuple(value for item in body['items'] for value in tuple(item.values()))
@@ -47,10 +47,10 @@ async def test_stat_get(
 async def test_stat_delete(
         make_request):
 
-    body, headers, status = make_request('delete', service_url)
+    body, headers, status = await make_request('delete', service_url)
 
     assert status == HTTPStatus.OK
 
-    body, headers, status = make_request('get', service_url)
+    body, headers, status = await make_request('get', service_url)
 
     assert status == HTTPStatus.NOT_FOUND
