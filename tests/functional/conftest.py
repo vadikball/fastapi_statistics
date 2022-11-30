@@ -33,7 +33,7 @@ async def aiohttp_session():
 @pytest_asyncio.fixture(scope='session')
 async def postgres_engine() -> AsyncEngine:
     engine = create_async_engine(
-        test_settings.DB_CONFIG,
+        test_settings.pg_settings,
         future=True,
         echo=True,
     )
