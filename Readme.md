@@ -6,7 +6,7 @@ API для сбора/показа/удаления статистики на Fa
 
 * docker-compose -f docker-compose.dev.yml up --build
 
-2. Для запуска проекта уз тестов через docker-compose:
+2. Для запуска проекта без тестов через docker-compose:
 * Поместить .fastapi.env и .postgres.env с вашими переменными в корень репозитория. 
   Список и пример переменных находится в файлах fastapi.sample.env и postgres.sample.env
   
